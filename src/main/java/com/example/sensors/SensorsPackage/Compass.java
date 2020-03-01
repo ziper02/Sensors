@@ -5,15 +5,21 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sensors.MySensorsPackage.MySensor;
 import com.example.sensors.Builder.MySensorBuilder;
+import com.example.sensors.R;
 
 public class Compass extends MySensor implements SensorEventListener
 {
 
     protected float[] gravity;
     protected float[] geomagnetic;
+
+    private TextView textViewCompass = (TextView)((AppCompatActivity)super.context).findViewById(R.id.textViewCompass);
 
     public Compass(MySensorBuilder builder) {
         super(builder);
@@ -49,7 +55,8 @@ public class Compass extends MySensor implements SensorEventListener
             {
                 float orientation[] = new float[3];
                 SensorManager.getOrientation(R, orientation);
-                //Log.d(super.getTAG(),"onSensorChanged : Compass:"+(int)(Math.toDegrees(orientation[0]) + 360) % 360 + " degree");
+                Log.d(super.getTAG(),"onSensorChanged : Compass:"+(int)(Math.toDegrees(orientation[0]) + 360) % 360 + " degree");
+                textViewCompass.setText((int)(Math.toDegrees(orientation[0]) + 360) % 360 + " degree");
 
             }
         }

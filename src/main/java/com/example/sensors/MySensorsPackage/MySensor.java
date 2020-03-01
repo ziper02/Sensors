@@ -19,6 +19,7 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
     private static SensorManager sensorManager=null;
     private Sensor sensor;
     private Sensor sensorTwo=null;
+    protected Context context;
 
 
 
@@ -26,7 +27,7 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
     {
         if(sensorManager==null)
             this.sensorManager=(SensorManager)builder.getContext().getSystemService(Context.SENSOR_SERVICE);
-
+        this.context=builder.getContext();
         this.sensor=sensorManager.getDefaultSensor(builder.getSensor());
         if(builder.getSensorTwo()!=-1)
             this.sensorTwo=sensorManager.getDefaultSensor(builder.getSensorTwo());

@@ -1,21 +1,30 @@
 package com.example.sensors.SensorsPackage;
 
+import android.Manifest;
+import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.location.Location;
 import android.location.LocationListener;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sensors.Builder.MySensorLocationBuilder;
 import com.example.sensors.MySensorsPackage.MySensor;
 import com.example.sensors.MySensorsPackage.MySensorLocation;
+import com.example.sensors.R;
 
 public class Postion extends MySensorLocation implements LocationListener
 {
 
 
+    private TextView textViewLatitude = (TextView)((AppCompatActivity)super.getContext()).findViewById(R.id.textViewLatitude);
+    private TextView textViewLongitude = (TextView)((AppCompatActivity)super.getContext()).findViewById(R.id.textViewLongitude);
 
     public Postion(MySensorLocationBuilder builder)
     {
@@ -34,23 +43,42 @@ public class Postion extends MySensorLocation implements LocationListener
     @Override
     public void onLocationChanged(Location location)
     {
+        if(location!=null)
+        {
+            Log.d(getTAG(), "onLocationChanged Longitude: " + location.getLongitude() + "Latitude: " + location.getLatitude());
+            textViewLatitude.setText(String.format("%.3f",location.getLatitude()));
+            textViewLongitude.setText(String.format("%.3f",location.getLongitude()));
+        }
+        else
+        {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getLocation();
+                }
+            }, 4000);
 
-        Log.d(getTAG(),"onLocationChanged Longitude: " + location.getLongitude() + "Latitude: "+ location.getLatitude());
+        }
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        getLocation();
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        getLocation();
 
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
+        getLocation();
     }
+
+
 }
