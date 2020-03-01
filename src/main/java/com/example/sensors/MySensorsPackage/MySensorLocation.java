@@ -1,44 +1,41 @@
 package com.example.sensors.MySensorsPackage;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
-
-
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
-
 import com.example.sensors.Builder.MySensorLocationBuilder;
-
+import com.example.sensors.R;
 import com.example.sensors.SensorItem;
 
 
 
 
-public class MySensorLocation extends Sensor implements LocationListener,Cloneable, SensorItem  //Builder
+public abstract class MySensorLocation extends Sensor implements LocationListener,Cloneable, SensorItem  //Builder
 {
 
     protected static  final int REQUEST_LOCATION=1;
     private static LocationManager locationManager = null;
     protected Location location;
     private Context context;
+    protected TextView editTextLog;
 
     public MySensorLocation(MySensorLocationBuilder builder)
     {
         this.context=builder.getContext();
+        editTextLog = (TextView)((AppCompatActivity)context).findViewById(R.id.editTextLog);
         ActivityCompat.requestPermissions((Activity)context,new String[]
             {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         ActivityCompat.requestPermissions((Activity)context,new String[]
@@ -80,8 +77,9 @@ public class MySensorLocation extends Sensor implements LocationListener,Cloneab
         alertDialog.show();
     }
 
-    protected void getLocation()
+    protected Boolean getLocation()
     {
+        Boolean result =false;
         if (ActivityCompat.checkSelfPermission(context,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION) !=PackageManager.PERMISSION_GRANTED)
         {
@@ -98,7 +96,7 @@ public class MySensorLocation extends Sensor implements LocationListener,Cloneab
             Location LocationPassive = null;
             if (!isGPSEnabled && !isNetworkEnabled && !isPassiveEnabled)
             {
-                Toast.makeText(context, "Can't Get Your Location", Toast.LENGTH_SHORT).show();
+                editTextLog.setText(editTextLog.getText()+"None of location services are working\nCompass Sensor is not wokring\n");
             }
             else
                 {
@@ -106,30 +104,41 @@ public class MySensorLocation extends Sensor implements LocationListener,Cloneab
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
                     LocationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     Log.d("Network", "Network Enabled");
-                    if(LocationNetwork!=null)
+                    if(LocationNetwork!=null && location==null)
+                    {
                         location = LocationNetwork;
+                        editTextLog.setText(editTextLog.getText()+"Postion Sensor start working by Network\n");
+                        result=true;
+                    }
 
                 }
                 if (isGPSEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                     LocationGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     Log.d("GPS", "GPS Enabled");
-                    if(LocationGps!=null)
+                    if(LocationGps!=null && location==null) {
                         location = LocationGps;
+                        editTextLog.setText(editTextLog.getText() + "Postion Sensor start working by GPS\n");
+                        result=true;
+                    }
                     }
                 if (isPassiveEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, this);
                     LocationPassive = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                     Log.d("Passive", "Passive Enabled");
-                    if(LocationPassive!=null)
+                    if(LocationPassive!=null && location==null) {
                         location = LocationPassive;
+                        editTextLog.setText(editTextLog.getText() + "Postion Sensor start working by Passive\n");
+                        result=true;
+                    }
                 }
             }
             if(LocationGps==null && LocationNetwork==null && LocationPassive==null)
             {
-                //TODO
+                editTextLog.setText(editTextLog.getText()+"Failed to get location verfiay the auth of app\nCompass Sensor is not wokring\n");
             }
         }
+        return result;
     }
 
     @Override

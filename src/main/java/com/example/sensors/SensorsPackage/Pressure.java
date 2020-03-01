@@ -20,6 +20,12 @@ public class Pressure extends MySensor implements SensorEventListener
 
     public Pressure(MySensorBuilder builder) {
         super(builder);
+        editTextLog.setText(editTextLog.getText()+"Pressure Sensor start working\n");
+        if(sensor==null)
+        {
+            textViewPressure.setText("Exception");
+            editTextLog.setText(editTextLog.getText()+"Pressure Sensor is NOT working\n");
+        }
     }
 
     @Override

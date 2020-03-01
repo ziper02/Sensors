@@ -4,20 +4,49 @@
 package com.example.sensors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+
 
 
 public class MainActivity extends AppCompatActivity
 {
 
+    public static AppCompatActivity context;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Sensors sensors=new Sensors(this);
+        context=this;
+
+        startService();
 
     }
 
+
+
+    public void startService()
+    {
+        Intent serviceIntent = new Intent(this, SensorService.class);
+        startService(serviceIntent);
+    }
+
+
+
+    public void stopService(View v) {
+        Intent serviceIntent = new Intent(this, SensorService.class);
+        stopService(serviceIntent);
+
+        // exit from the activity
+        ActivityCompat.finishAffinity(this);
+        System.exit(0);
+
+    }
 
 }

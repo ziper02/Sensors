@@ -6,8 +6,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sensors.Builder.MySensorBuilder;
+import com.example.sensors.R;
 import com.example.sensors.SensorItem;
 
 
@@ -16,11 +20,11 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
 
 
 
-    private static SensorManager sensorManager=null;
-    private Sensor sensor;
-    private Sensor sensorTwo=null;
+    protected static SensorManager sensorManager=null;
+    protected Sensor sensor=null;
+    protected Sensor sensorTwo=null;
     protected Context context;
-
+    protected TextView editTextLog;
 
 
     public MySensor(MySensorBuilder builder)
@@ -31,7 +35,7 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
         this.sensor=sensorManager.getDefaultSensor(builder.getSensor());
         if(builder.getSensorTwo()!=-1)
             this.sensorTwo=sensorManager.getDefaultSensor(builder.getSensorTwo());
-
+        editTextLog = (TextView)((AppCompatActivity)context).findViewById(R.id.editTextLog);
     }
 
 

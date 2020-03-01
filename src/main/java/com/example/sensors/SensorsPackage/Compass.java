@@ -21,8 +21,15 @@ public class Compass extends MySensor implements SensorEventListener
 
     private TextView textViewCompass = (TextView)((AppCompatActivity)super.context).findViewById(R.id.textViewCompass);
 
-    public Compass(MySensorBuilder builder) {
+    public Compass(MySensorBuilder builder)
+    {
         super(builder);
+        editTextLog.setText(editTextLog.getText()+"Compass Sensor start working\n");
+        if(sensor==null || sensorTwo==null)
+        {
+            textViewCompass.setText("Exception");
+            editTextLog.setText(editTextLog.getText()+"Compass Sensor is NOT working\n");
+        }
     }
 
     @Override

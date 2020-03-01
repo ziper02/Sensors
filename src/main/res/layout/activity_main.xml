@@ -203,7 +203,10 @@
             android:layout_width="match_parent"
             android:layout_height="222dp"
             android:background="#E2E1E1"
+            android:clickable="false"
             android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:gravity="start|top"
             android:inputType="textMultiLine"
             android:textSize="16dp" />
@@ -215,6 +218,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:background="#ff0000"
+        android:onClick="stopService"
         android:text="Exit"
         android:textAllCaps="false"
         android:textColor="@android:color/white"

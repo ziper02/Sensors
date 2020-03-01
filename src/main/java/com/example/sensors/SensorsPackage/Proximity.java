@@ -19,6 +19,12 @@ public class Proximity extends MySensor implements SensorEventListener
 
     public Proximity(MySensorBuilder builder) {
         super(builder);
+        editTextLog.setText(editTextLog.getText()+"Proximity Sensor start working\n");
+        if(sensor==null)
+        {
+            textViewProximity.setText("Exception");
+            editTextLog.setText(editTextLog.getText()+"Proximity Sensor is NOT working\n");
+        }
     }
 
     @Override

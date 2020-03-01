@@ -1,19 +1,12 @@
 package com.example.sensors.SensorsPackage;
 
-import android.Manifest;
-import android.app.Activity;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.location.Location;
 import android.location.LocationListener;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.sensors.Builder.MySensorLocationBuilder;
 import com.example.sensors.MySensorsPackage.MySensor;
 import com.example.sensors.MySensorsPackage.MySensorLocation;
@@ -51,11 +44,17 @@ public class Postion extends MySensorLocation implements LocationListener
         }
         else
         {
-            Handler handler = new Handler();
+            textViewLatitude.setText("Exception");
+            textViewLongitude.setText("Exception");
+            editTextLog.setText(editTextLog.getText()+"Postion Sensor is NOT wokring\n");
+            final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    getLocation();
+                    if (!getLocation())
+                        handler.postDelayed(this, 4000);
+                    else
+                        handler.removeCallbacksAndMessages(null);
                 }
             }, 4000);
 

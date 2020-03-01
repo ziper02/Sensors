@@ -20,6 +20,12 @@ public class Light extends MySensor implements SensorEventListener
 
     public Light(MySensorBuilder builder) {
         super(builder);
+        editTextLog.setText(editTextLog.getText()+"Light Sensor start working\n");
+        if(sensor==null)
+        {
+            textViewLight.setText("Exception");
+            editTextLog.setText(editTextLog.getText()+"Light Sensor is NOT working\n");
+        }
     }
 
     @Override
