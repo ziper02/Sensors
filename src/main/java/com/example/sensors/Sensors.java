@@ -2,9 +2,15 @@ package com.example.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.location.LocationManager;
 import android.util.Log;
 
+import com.example.sensors.Builder.MySensorBuilder;
+import com.example.sensors.Builder.MySensorLocationBuilder;
+import com.example.sensors.MySensorsPackage.MySensor;
+import com.example.sensors.SensorsPackage.Compass;
 import com.example.sensors.SensorsPackage.Light;
+import com.example.sensors.SensorsPackage.Postion;
 import com.example.sensors.SensorsPackage.Pressure;
 import com.example.sensors.SensorsPackage.Proximity;
 
@@ -19,11 +25,14 @@ public class Sensors implements SensorItem //For Composite and Facade
     private Light light;
     private Proximity proximity;
     private Pressure pressure;
+    private Compass compass;
+    private Postion postion;
 
     public Sensors(Context context)
     {
         createAllSensors(context);
         compositeAllSensors();
+        activeSensor();
     }
 
 
@@ -33,6 +42,8 @@ public class Sensors implements SensorItem //For Composite and Facade
         this.light=(Light)new MySensorBuilder().sensor(Sensor.TYPE_LIGHT).context(context).build();
         this.proximity=(Proximity)new MySensorBuilder().sensor(Sensor.TYPE_PROXIMITY).context(context).build();
         this.pressure=(Pressure)new MySensorBuilder().sensor(Sensor.TYPE_PRESSURE).context(context).build();
+        this.compass=(Compass)new MySensorBuilder().sensor(Sensor.TYPE_MAGNETIC_FIELD).sensorTwo(Sensor.TYPE_ACCELEROMETER).context(context).build();
+        this.postion=(Postion)new MySensorLocationBuilder().location(LocationManager.NETWORK_PROVIDER).context(context).build();
     }
 
     private void compositeAllSensors()
@@ -41,6 +52,8 @@ public class Sensors implements SensorItem //For Composite and Facade
         sensors.add(light);
         sensors.add(proximity);
         sensors.add(pressure);
+        sensors.add(compass);
+        sensors.add(postion);
     }
     public void add(SensorItem sensorItem)
     {
@@ -60,7 +73,9 @@ public class Sensors implements SensorItem //For Composite and Facade
     }
 
     @Override
-    public void activeSensor() {
+    public void activeSensor()
+    {
+        Log.d(MySensor.getTAG(),"Activate all Sensors");
         for(SensorItem sensorItem: sensors)
             sensorItem.activeSensor();
     }
