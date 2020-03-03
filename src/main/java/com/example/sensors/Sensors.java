@@ -4,6 +4,9 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.location.LocationManager;
 import android.util.Log;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sensors.Builder.MySensorBuilder;
 import com.example.sensors.Builder.MySensorLocationBuilder;
@@ -17,9 +20,8 @@ import com.example.sensors.SensorsPackage.Proximity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sensors implements SensorItem //For Composite and Facade
+public class Sensors  //For Composite and Facade
 {
-
     private List<SensorItem> sensors=new ArrayList<SensorItem>();
 
     private Light light;
@@ -36,14 +38,18 @@ public class Sensors implements SensorItem //For Composite and Facade
     }
 
 
+
+
     private void createAllSensors(Context context)
     {
         Log.d(MySensor.getTAG(),"Create all objects of Sensors");
-        this.light=(Light)new MySensorBuilder().sensor(Sensor.TYPE_LIGHT).context(context).build();
-        this.proximity=(Proximity)new MySensorBuilder().sensor(Sensor.TYPE_PROXIMITY).context(context).build();
-        this.pressure=(Pressure)new MySensorBuilder().sensor(Sensor.TYPE_PRESSURE).context(context).build();
-        this.compass=(Compass)new MySensorBuilder().sensor(Sensor.TYPE_MAGNETIC_FIELD).sensorTwo(Sensor.TYPE_ACCELEROMETER).context(context).build();
-        this.postion=(Postion)new MySensorLocationBuilder().location(LocationManager.NETWORK_PROVIDER).context(context).build();
+        this.light=(Light)new MySensorBuilder().sensor(Sensor.TYPE_LIGHT).context(context).textView((TextView)((AppCompatActivity)context).findViewById(R.id.textViewLight)).build();
+        this.proximity=(Proximity)new MySensorBuilder().sensor(Sensor.TYPE_PROXIMITY).textView((TextView)((AppCompatActivity)context).findViewById(R.id.textViewProximity)).context(context).build();
+        this.pressure=(Pressure)new MySensorBuilder().sensor(Sensor.TYPE_PRESSURE).textView((TextView)((AppCompatActivity)context).findViewById(R.id.textViewPressure)).context(context).build();
+        this.compass=(Compass)new MySensorBuilder().sensor(Sensor.TYPE_MAGNETIC_FIELD).textView((TextView)((AppCompatActivity)context).findViewById(R.id.textViewCompass))
+                .sensorTwo(Sensor.TYPE_ACCELEROMETER).context(context).build();
+        this.postion=(Postion)new MySensorLocationBuilder().textView((TextView)((AppCompatActivity)context).findViewById(R.id.textViewLatitude))
+                .textViewTwo((TextView)((AppCompatActivity)context).findViewById(R.id.textViewLongitude)).location(LocationManager.NETWORK_PROVIDER).context(context).build();
     }
 
     private void compositeAllSensors()
@@ -65,14 +71,14 @@ public class Sensors implements SensorItem //For Composite and Facade
         this.sensors.remove(sensorItem);
     }
 
-    @Override
+
     public void showDetails() {
         Log.d(MySensor.getTAG(),"The Details of all sensors : \n");
         for(SensorItem sensorItem: sensors)
             sensorItem.showDetails();
     }
 
-    @Override
+
     public void activeSensor()
     {
         Log.d(MySensor.getTAG(),"Activate all Sensors");

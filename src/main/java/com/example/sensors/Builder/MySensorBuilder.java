@@ -2,6 +2,7 @@ package com.example.sensors.Builder;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.widget.TextView;
 
 import com.example.sensors.MySensorsPackage.MySensor;
 import com.example.sensors.SensorsPackage.Compass;
@@ -14,6 +15,8 @@ public class MySensorBuilder //Builder
     private int sensor;
     private Context context;
     private int sensorTwo=-1;
+    private TextView textView;
+
 
     public MySensor build()//The builder and also using for Factory for create Object
     {
@@ -29,6 +32,13 @@ public class MySensorBuilder //Builder
         else
             return null;
     }
+
+    public MySensorBuilder textView(TextView textView)
+    {
+        this.textView=textView;
+        return this;
+    }
+
 
     public MySensorBuilder sensor(int sensor)
     {
@@ -59,6 +69,13 @@ public class MySensorBuilder //Builder
 
     public Context getContext() {
         return context;
+    }
+
+
+
+
+    public TextView getTextView() {
+        return textView;
     }
 
 }

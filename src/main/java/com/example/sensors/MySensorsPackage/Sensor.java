@@ -1,10 +1,6 @@
 package com.example.sensors.MySensorsPackage;
 
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.sensors.R;
 import com.example.sensors.SensorItem;
 
 public abstract class Sensor implements Cloneable, SensorItem
@@ -13,4 +9,5 @@ public abstract class Sensor implements Cloneable, SensorItem
     public static String getTAG() {
         return TAG;
     }
+
 }

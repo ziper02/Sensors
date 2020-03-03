@@ -31,10 +31,14 @@ public abstract class MySensorLocation extends Sensor implements LocationListene
     protected Location location;
     private Context context;
     protected TextView editTextLog;
+    protected TextView textView;
+    protected TextView textViewTwo;
 
     public MySensorLocation(MySensorLocationBuilder builder)
     {
         this.context=builder.getContext();
+        this.textView=builder.getTextView();
+        this.textViewTwo=builder.getTextViewTwo();
         editTextLog = (TextView)((AppCompatActivity)context).findViewById(R.id.editTextLog);
         ActivityCompat.requestPermissions((Activity)context,new String[]
             {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);

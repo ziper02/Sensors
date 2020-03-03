@@ -12,18 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sensors.Builder.MySensorBuilder;
 import com.example.sensors.R;
-import com.example.sensors.SensorItem;
 
 
-public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sensor implements SensorEventListener //Builder,Prototype,Factory(With Abstract class)
+
+public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sensor implements SensorEventListener,Cloneable //Builder,Prototype,Factory(With Abstract class)
 {
-
-
-
     protected static SensorManager sensorManager=null;
     protected Sensor sensor=null;
     protected Sensor sensorTwo=null;
     protected Context context;
+    protected TextView textView;
     protected TextView editTextLog;
 
 
@@ -36,6 +34,7 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
         if(builder.getSensorTwo()!=-1)
             this.sensorTwo=sensorManager.getDefaultSensor(builder.getSensorTwo());
         editTextLog = (TextView)((AppCompatActivity)context).findViewById(R.id.editTextLog);
+        textView=builder.getTextView();
     }
 
 
@@ -55,6 +54,7 @@ public abstract class MySensor extends com.example.sensors.MySensorsPackage.Sens
         Log.d(getTAG(),"Sensor Name="+sensor.getName());
     }
 
+    @Override
     public void activeSensor()
     {
         sensorManager.registerListener(MySensor.this,this.sensor,SensorManager.SENSOR_DELAY_NORMAL);

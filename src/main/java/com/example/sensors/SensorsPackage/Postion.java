@@ -5,19 +5,14 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.sensors.Builder.MySensorLocationBuilder;
 import com.example.sensors.MySensorsPackage.MySensor;
 import com.example.sensors.MySensorsPackage.MySensorLocation;
-import com.example.sensors.R;
+
 
 public class Postion extends MySensorLocation implements LocationListener
 {
-
-
-    private TextView textViewLatitude = (TextView)((AppCompatActivity)super.getContext()).findViewById(R.id.textViewLatitude);
-    private TextView textViewLongitude = (TextView)((AppCompatActivity)super.getContext()).findViewById(R.id.textViewLongitude);
 
     public Postion(MySensorLocationBuilder builder)
     {
@@ -39,13 +34,13 @@ public class Postion extends MySensorLocation implements LocationListener
         if(location!=null)
         {
             Log.d(getTAG(), "onLocationChanged Longitude: " + location.getLongitude() + "Latitude: " + location.getLatitude());
-            textViewLatitude.setText(String.format("%.3f",location.getLatitude()));
-            textViewLongitude.setText(String.format("%.3f",location.getLongitude()));
+            textView.setText(String.format("%.3f",location.getLatitude()));
+            textViewTwo.setText(String.format("%.3f",location.getLongitude()));
         }
         else
         {
-            textViewLatitude.setText("Exception");
-            textViewLongitude.setText("Exception");
+            textView.setText("Exception");
+            textViewTwo.setText("Exception");
             editTextLog.setText(editTextLog.getText()+"Postion Sensor is NOT wokring\n");
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

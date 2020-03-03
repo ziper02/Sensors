@@ -3,15 +3,19 @@ package com.example.sensors.Builder;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.widget.TextView;
 
 import com.example.sensors.MySensorsPackage.MySensorLocation;
 import com.example.sensors.SensorsPackage.Postion;
+
 
 
 public class MySensorLocationBuilder //Builder
 {
     private String location;
     private Context context;
+    private TextView textView;
+    private TextView textViewTwo;
 
     public MySensorLocation build()//The builder and also using for Factory for create Object
     {
@@ -27,10 +31,21 @@ public class MySensorLocationBuilder //Builder
         return this;
     }
 
+    public MySensorLocationBuilder textView(TextView textView)
+    {
+        this.textView=textView;
+        return this;
+    }
 
     public MySensorLocationBuilder context(Context context)
     {
         this.context=context;
+        return this;
+    }
+
+    public MySensorLocationBuilder textViewTwo(TextView textViewTwo)
+    {
+        this.textViewTwo=textViewTwo;
         return this;
     }
 
@@ -42,6 +57,13 @@ public class MySensorLocationBuilder //Builder
 
     public Context getContext() {
         return context;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+    public TextView getTextViewTwo() {
+        return textViewTwo;
     }
 
 }
